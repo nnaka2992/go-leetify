@@ -60,14 +60,14 @@ var leetWordCorr = map[string]string {
 
 var keyDoesNotExist = errors.New("Key does not exist")
 
-func leetChar(char string) (string, error) {
+func LeetChar(char string) (string, error) {
 	if val, ok := leetCharCorr[char]; ok {
 		return val[rand.Intn(len(val))], nil
 	}
 	return "", keyDoesNotExist
 }
 
-func leetWord(word string) (string, error) {
+func LeetWord(word string) (string, error) {
 	if val, ok := leetWordCorr[word]; ok {
 		return val, nil
 	}
