@@ -15,11 +15,11 @@ func randBool() bool {
 }
 
 func applyLeet(word string) string {
-	val, err := leet.leetWord(word)
+	val, err := leet.LeetWord(word)
 	if err != nil {
 		str  := ""
 		for _, char := range word {
-			if val, err = leet.leetChar(char); err != nil {
+			if val, err = leet.LeetChar(char); err != nil {
 				str += val
 			}
 			str += string(char)
