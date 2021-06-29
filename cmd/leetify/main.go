@@ -14,15 +14,15 @@ func randBool() bool {
 	return rand.Intn(2) == 0
 }
 
-func applyLeetify(word string) string {
-	val, err := leetWord(word)
+func applyLeet(word string) string {
+	val, err := leet.leetWord(word)
 	if err != nil {
-		str  = ""
+		str  := ""
 		for _, char := range word {
-			if val, err = leetChar(char); err != nil {
+			if val, err = leet.leetChar(char); err != nil {
 				str += val
 			}
-			str += char
+			str += string(char)
 		}
 		return str
 	}
@@ -38,9 +38,9 @@ func main() {
 	s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		word := []byte(s.Text())
-		if !random && !randBool {
+		if !random && !randBool() {
 			continue
 		}
-		applyLeetify(word)
+		applyLeet(string(word))
 	}
 }
