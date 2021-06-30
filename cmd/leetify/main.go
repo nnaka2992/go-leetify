@@ -3,7 +3,9 @@ package main
 import (
 	"bufio"
 	"flag"
+	"fmt"
 	"os"
+	"strings"
 	"math/rand"
 	"time"
 
@@ -14,19 +16,51 @@ func randBool() bool {
 	return rand.Intn(2) == 0
 }
 
-func applyLeet(word string) string {
-	val, err := leet.LeetWord(word)
-	if err != nil {
-		str  := ""
-		for _, char := range word {
-			if val, err = leet.LeetChar(char); err != nil {
-				str += val
+func applyLeet(word string, random bool) {
+	applyLeetWord(word, random)
+}
+
+// chack whether leet word is in word or not
+func applyLeetWord(word string, random bool) {
+	leetWordKeys := leet.LeetWordKeys()
+	maxTry := len(leetWordKeys)
+
+	for _, leetWordKey := range leet.LeetWordKeys() {
+		wordParts := strings.Split(word, leetWordKey)
+		if len(wordParts) > 1 {
+			for _, wordPart := range wordParts {
+				if len(wordPart) != 0 {
+					applyLeetWord(wordPart, random)
+				} else if len(wordPart) == 0 {
+					if val, err := leet.LeetWord(leetWordKey); err == nil {
+						fmt.Printf(val)
+					}
+				}
 			}
-			str += string(char)
+		} else {
+			maxTry--
 		}
-		return str
 	}
-	return val
+	if maxTry == 0 {
+		applyLeetChar(word, random)
+	}
+}
+
+// if the word is not leet word, then convert charcters to leet character
+func applyLeetChar(word string, random bool) {
+	for _, rune := range word {
+		char := string(rune)		
+		if !random && randBool() {
+
+			if val, err := leet.LeetChar(char); err != nil {
+				fmt.Printf(char)
+			} else {
+				fmt.Printf(val)
+			}
+		} else {
+			fmt.Printf(char)
+		}
+	}
 }
 
 func main() {
@@ -38,9 +72,7 @@ func main() {
 	s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		word := []byte(s.Text())
-		if !random && !randBool() {
-			continue
-		}
-		applyLeet(string(word))
+		applyLeet(string(word), random)
+		fmt.Println("")
 	}
 }
