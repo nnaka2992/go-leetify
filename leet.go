@@ -85,6 +85,6 @@ func LeetWord(word string) (string, error) {
 	return "", keyDoesNotExist
 }
 
-func LeetWordKey() []string {
+func LeetWordKeys() []string {
 	return keys(leetWordCorr)
 }
