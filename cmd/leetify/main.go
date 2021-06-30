@@ -49,16 +49,23 @@ func applyLeetWord(word string, random bool) {
 // if the word is not leet word, then convert charcters to leet character
 func applyLeetChar(word string, random bool) {
 	for _, rune := range word {
-		char := string(rune)		
-		if !random && randBool() {
-
+		char := string(rune)
+		if random {
+			if randBool() {
+				if val, err := leet.LeetChar(char); err != nil {
+					fmt.Printf(char)
+				} else {
+					fmt.Printf(val)
+				}
+			} else {
+				fmt.Printf(char)
+			}
+		} else {
 			if val, err := leet.LeetChar(char); err != nil {
 				fmt.Printf(char)
 			} else {
 				fmt.Printf(val)
 			}
-		} else {
-			fmt.Printf(char)
 		}
 	}
 }
