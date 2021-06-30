@@ -3,6 +3,7 @@ package leet
 import (
 	"errors"
 	"math/rand"
+	"sort"
 )
 
 var leetCharCorr = map[string][]string {
@@ -58,6 +59,18 @@ var leetWordCorr = map[string]string {
 	"easy":"ez",
 }
 
+func keys(m map[string]string) []string {
+	ks := []string{}
+	for k, _ := range m {
+		ks = append(ks, k)
+	}
+	sort.Slice(ks, func(i, j int) bool {return len(ks[i]) > len(ks[j])})
+
+	return ks
+}
+
+var leetWordKey = keys(leetWordCorr)
+
 var keyDoesNotExist = errors.New("Key does not exist")
 
 func LeetChar(char string) (string, error) {
@@ -72,4 +85,8 @@ func LeetWord(word string) (string, error) {
 		return val, nil
 	}
 	return "", keyDoesNotExist
+}
+
+func GetLeetWordKeys() ([]string) {
+	return leetWordKey
 }
