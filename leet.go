@@ -69,7 +69,7 @@ func keys(m map[string]string) []string {
 	return ks
 }
 
-var leetWordKey = keys(leetWordCorr)
+var leetWordKeys = keys(leetWordCorr)
 
 var keyDoesNotExist = errors.New("Key does not exist")
 
@@ -85,8 +85,4 @@ func LeetWord(word string) (string, error) {
 		return val, nil
 	}
 	return "", keyDoesNotExist
-}
-
-func GetLeetWordKeys() ([]string) {
-	return leetWordKey
 }
