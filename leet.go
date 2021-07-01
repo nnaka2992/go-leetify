@@ -2,8 +2,10 @@ package leet
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
 	"sort"
+	"strings"
 )
 
 var leetCharCorr = map[string][]string {
@@ -87,4 +89,63 @@ func LeetWord(word string) (string, error) {
 
 func LeetWordKeys() []string {
 	return keys(leetWordCorr)
+}
+
+func randBool() bool {
+	return rand.Intn(2) == 0
+}
+
+func ApplyLeet(word string, random bool) {
+	applyLeetWord(word, random)
+}
+// helper function to applyLeet
+// if the word is not leet word, then convert charcters to leet character
+func applyLeetWord(word string, random bool) {
+	leetWordKeys := LeetWordKeys()
+	maxTry := len(leetWordKeys)
+
+	for _, leetWordKey := range leetWordKeys {
+		wordParts := strings.Split(word, leetWordKey)
+		if len(wordParts) > 1 {
+			for _, wordPart := range wordParts {
+				if len(wordPart) != 0 {
+					applyLeetWord(wordPart, random)
+				} else if len(wordPart) == 0 {
+					if val, err := LeetWord(leetWordKey); err == nil {
+						fmt.Printf(val)
+					}
+				}
+			}
+		} else {
+			maxTry--
+		}
+	}
+	if maxTry == 0 {
+		applyLeetChar(word, random)
+	}
+}
+
+// helper function to applyLeet
+// if the word is not leet word, then convert charcters to leet character
+func applyLeetChar(word string, random bool) {
+	for _, rune := range word {
+		char := string(rune)
+		if random {
+			if randBool() {
+				if val, err := LeetChar(char); err != nil {
+					fmt.Printf(char)
+				} else {
+					fmt.Printf(val)
+				}
+			} else {
+				fmt.Printf(char)
+			}
+		} else {
+			if val, err := LeetChar(char); err != nil {
+				fmt.Printf(char)
+			} else {
+				fmt.Printf(val)
+			}
+		}
+	}
 }
