@@ -2,13 +2,14 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"flag"
 	"fmt"
 	"os"
 	"math/rand"
 	"time"
 
-	"github.com/nnaka2992/go-leetify"
+	//	"github.com/nnaka2992/go-leetify"
 )
 
 func main() {
@@ -17,10 +18,13 @@ func main() {
 	flag.Parse()
 
 	rand.Seed(time.Now().UTC().UnixNano())
-	s := bufio.NewScanner(os.Stdin)
+
+    s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		word := []byte(s.Text())
-		leet.ApplyLeet(string(word), random)
-		fmt.Println("")
+		fmt.Println(word)
+		word = leet.ApplyLeet(string(word), random)
+		fmt.Println(word)
 	}
+
 }

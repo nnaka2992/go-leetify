@@ -2,7 +2,6 @@ package leet
 
 import (
 	"errors"
-	"fmt"
 	"math/rand"
 	"sort"
 	"strings"
@@ -95,24 +94,27 @@ func randBool() bool {
 	return rand.Intn(2) == 0
 }
 
-func ApplyLeet(word string, random bool) {
-	applyLeetWord(word, random)
+func ApplyLeet(word string, random bool) string{
+	new_word := ""
+	applyLeet(word, &new_word, random)
+
+	return string(new_word)
 }
-// helper function to applyLeet
+// helper function to ApplyLeet
 // if the word is not leet word, then convert charcters to leet character
-func applyLeetWord(word string, random bool) {
+func applyLeet(word string, new_word *string, random bool) {
 	leetWordKeys := LeetWordKeys()
 	maxTry := len(leetWordKeys)
 
 	for _, leetWordKey := range leetWordKeys {
-		wordParts := strings.Split(word, leetWordKey)
+		wordParts := string.Split(word, leetWordKey)
 		if len(wordParts) > 1 {
 			for _, wordPart := range wordParts {
 				if len(wordPart) != 0 {
-					applyLeetWord(wordPart, random)
+					applyLeet(wordPart,new_word, random)
 				} else if len(wordPart) == 0 {
 					if val, err := LeetWord(leetWordKey); err == nil {
-						fmt.Printf(val)
+						*new_word += val
 					}
 				}
 			}
@@ -121,30 +123,30 @@ func applyLeetWord(word string, random bool) {
 		}
 	}
 	if maxTry == 0 {
-		applyLeetChar(word, random)
+		applyLeetChar(word, new_word, random)
 	}
 }
 
 // helper function to applyLeet
 // if the word is not leet word, then convert charcters to leet character
-func applyLeetChar(word string, random bool) {
+func applyLeetChar(word string, new_word *string, random bool) {
 	for _, rune := range word {
 		char := string(rune)
 		if random {
 			if randBool() {
 				if val, err := LeetChar(char); err != nil {
-					fmt.Printf(char)
+					*new_word += val
 				} else {
-					fmt.Printf(val)
+					*new_word += char
 				}
 			} else {
-				fmt.Printf(char)
+				*new_word += char
 			}
 		} else {
 			if val, err := LeetChar(char); err != nil {
-				fmt.Printf(char)
+				*new_word += val
 			} else {
-				fmt.Printf(val)
+				*new_word += char
 			}
 		}
 	}
