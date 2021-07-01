@@ -2,14 +2,13 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"flag"
 	"fmt"
 	"os"
 	"math/rand"
 	"time"
 
-	//	"github.com/nnaka2992/go-leetify"
+	"github.com/nnaka2992/go-leetify"
 )
 
 func main() {

@@ -107,7 +107,7 @@ func applyLeet(word string, new_word *string, random bool) {
 	maxTry := len(leetWordKeys)
 
 	for _, leetWordKey := range leetWordKeys {
-		wordParts := string.Split(word, leetWordKey)
+		wordParts := strings.Split(word, leetWordKey)
 		if len(wordParts) > 1 {
 			for _, wordPart := range wordParts {
 				if len(wordPart) != 0 {
