@@ -21,9 +21,8 @@ func main() {
     s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		word := []byte(s.Text())
-		fmt.Println(word)
-		word = leet.ApplyLeet(string(word), random)
-		fmt.Println(word)
+		new_word := leet.ApplyLeet(string(word), random)
+		fmt.Println(new_word)
 	}
 
 }

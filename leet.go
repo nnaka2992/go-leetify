@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"sort"
 	"strings"
+	"fmt"
 )
 
 var leetCharCorr = map[string][]string {
@@ -97,7 +98,6 @@ func randBool() bool {
 func ApplyLeet(word string, random bool) string{
 	new_word := ""
 	applyLeet(word, &new_word, random)
-
 	return string(new_word)
 }
 // helper function to ApplyLeet
@@ -109,12 +109,15 @@ func applyLeet(word string, new_word *string, random bool) {
 	for _, leetWordKey := range leetWordKeys {
 		wordParts := strings.Split(word, leetWordKey)
 		if len(wordParts) > 1 {
-			for _, wordPart := range wordParts {
+			for i, wordPart := range wordParts {
 				if len(wordPart) != 0 {
 					applyLeet(wordPart,new_word, random)
 				} else if len(wordPart) == 0 {
 					if val, err := LeetWord(leetWordKey); err == nil {
 						*new_word += val
+					}
+					if  word == leetWordKey {
+						break
 					}
 				}
 			}
@@ -134,7 +137,7 @@ func applyLeetChar(word string, new_word *string, random bool) {
 		char := string(rune)
 		if random {
 			if randBool() {
-				if val, err := LeetChar(char); err != nil {
+				if val, err := LeetChar(char); err == nil {
 					*new_word += val
 				} else {
 					*new_word += char
@@ -143,7 +146,7 @@ func applyLeetChar(word string, new_word *string, random bool) {
 				*new_word += char
 			}
 		} else {
-			if val, err := LeetChar(char); err != nil {
+			if val, err := LeetChar(char); err == nil {
 				*new_word += val
 			} else {
 				*new_word += char
