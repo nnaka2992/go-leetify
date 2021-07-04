@@ -1,6 +1,7 @@
 package leet
 
 import (
+	"fmt"
 	"math/rand"
 	"sort"
 	"strings"
@@ -162,5 +163,18 @@ func applyChar(str string) (string, string, bool) {
 		return str[1:], char, true
 	} else {
 		return str[1:], str[:1], false
+	}
+}
+
+func PrintChatTable(){
+	for key, value := range charTable {
+		fmt.Printf("%s\t: %s\n", key, value)
+	}
+}
+
+
+func PrintWordTable(){
+	for key, value := range wordTable {
+		fmt.Printf("%s\t: %s\n", key, value)
 	}
 }
