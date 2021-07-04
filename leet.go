@@ -106,44 +106,44 @@ func randBool() bool {
 }
 
 func ApplyLeet(str string) string {
-	new_str := ""
+	newStr := ""
 	for ; 0 < len(str); {
 		if substr, val, ok := applyWord(str); ok {
 			str = substr
-			new_str += val
+			newStr += val
 			continue
 		}
 
 		substr, val, _ := applyChar(str)
 		str = substr
-		new_str += val
+		newStr += val
 
 	}
-	return new_str
+	return newStr
 }
 
 func ApplyWord(str string) string {
-	new_str := ""
+	newStr := ""
 	for ; 0 < len(str); {
 		if substr, val, ok := applyWord(str); ok {
 			str = substr
-			new_str += val
+			newStr += val
 			continue
 		}
-		new_str += str[:1]
+		newStr += str[:1]
 		str = str[1:]
 	}
-	return new_str
+	return newStr
 }
 
 func ApplyChar(str string) string {
-	new_str := ""
+	newStr := ""
 	for ; 0 < len(str); {
 		substr, val, _ := applyChar(str)
 		str = substr
-		new_str += val
+		newStr += val
 	}
-	return new_str
+	return newStr
 }
 
 func applyWord (str string) (string, string, bool){
