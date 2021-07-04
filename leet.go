@@ -1,7 +1,6 @@
 package leet
 
 import (
-	"errors"
 	"math/rand"
 	"sort"
 	"strings"
@@ -55,96 +54,89 @@ var leetWordCorr = map[string]string {
 	"easy":"ez",
 }
 
-func keys(m map[string]string) []string {
+func initWordKeys(m map[string]string) []string {
 	ks := []string{}
 	for k, _ := range m {
 		ks = append(ks, k)
 	}
+	sort.Slice(ks, func(i, j int) bool {return ks[i] < ks[j]})
 	sort.Slice(ks, func(i, j int) bool {return len(ks[i]) > len(ks[j])})
+
 
 	return ks
 }
 
-var keyDoesNotExist = errors.New("Key does not exist")
-
-func LeetChar(char string) (string, error) {
-	if val, ok := leetCharCorr[char]; ok {
-		return val[rand.Intn(len(val))], nil
+func initCharKeys(m map[string][]string) []string {
+	ks := []string{}
+	for k, _ := range m {
+		ks = append(ks, k)
 	}
-	return "", keyDoesNotExist
+	sort.Slice(ks, func(i, j int) bool {return ks[i] < ks[j]})
+
+	return ks
 }
 
-func LeetWord(word string) (string, error) {
-	if val, ok := leetWordCorr[word]; ok {
-		return val, nil
+var charKeys = initCharKeys(leetCharCorr)
+var wordKeys = initWordKeys(leetWordCorr)
+
+func LeetChar(char string) (string, bool) {
+	val, ok := leetCharCorr[char]
+	if !ok {
+		return "", ok
 	}
-	return "", keyDoesNotExist
+	return val[rand.Intn(len(val))], ok
+}
+
+func LeetWord(word string) (string, bool) {
+	word, ok := leetWordCorr[word]
+	return word, ok
+}
+
+func LeetCharKeys() []string {
+	return charKeys
 }
 
 func LeetWordKeys() []string {
-	return keys(leetWordCorr)
+	return wordKeys
 }
 
 func randBool() bool {
 	return rand.Intn(2) == 0
 }
 
-func ApplyLeet(word string, random bool) string{
-	new_word := ""
-	applyLeet(word, &new_word, random)
-	return string(new_word)
-}
-// helper function to ApplyLeet
-// if the word is not leet word, then convert charcters to leet character
-func applyLeet(word string, new_word *string, random bool) {
-	leetWordKeys := LeetWordKeys()
-	maxTry := len(leetWordKeys)
-
-	for _, leetWordKey := range leetWordKeys {
-		wordParts := strings.Split(word, leetWordKey)
-		if len(wordParts) > 1 {
-			for _, wordPart := range wordParts {
-				if len(wordPart) != 0 {
-					applyLeet(wordPart,new_word, random)
-				} else if len(wordPart) == 0 {
-					if val, err := LeetWord(leetWordKey); err == nil {
-						*new_word += val
-					}
-					if  word == leetWordKey {
-						break
-					}
-				}
-			}
-		} else {
-			maxTry--
-		}
-	}
-	if maxTry == 0 {
-		applyLeetChar(word, new_word, random)
-	}
+func ApplyLeet(word string) string{
+	new_str := applyLeet(word)
+	return new_str
 }
 
-// helper function to applyLeet
-// if the word is not leet word, then convert charcters to leet character
-func applyLeetChar(word string, new_word *string, random bool) {
-	for _, rune := range word {
-		char := string(rune)
-		if random {
-			if randBool() {
-				if val, err := LeetChar(char); err == nil {
-					*new_word += val
-				} else {
-					*new_word += char
+func applyLeet(str string) string {
+	applyWord := func (str string, new_str *string) (string, bool){
+		for i := 0; i < len(wordKeys); i++ {
+			if strings.HasPrefix(str, wordKeys[i]) {
+				if word, ok := LeetWord(wordKeys[i]); ok {
+					*new_str += word
 				}
-			} else {
-				*new_word += char
-			}
-		} else {
-			if val, err := LeetChar(char); err == nil {
-				*new_word += val
-			} else {
-				*new_word += char
+				return str[len(wordKeys[i]):], true
 			}
 		}
+		return str, false
 	}
+
+	new_str := ""
+	for ; 0 < len(str); {
+		if substr, ok := applyWord(str, &new_str); ok {
+			str = substr
+			continue
+		}
+
+		if char, ok := LeetChar(str[:1]); ok{
+			new_str += char
+		} else {
+			new_str += str[:1]
+		}
+		str = str[1:]
+	}
+	return new_str
 }
+
+
