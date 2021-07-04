@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	random := flag.Bool("r", false, "Randomly apply leetify")
+	//random := flag.Bool("r", false, "Randomly apply leetify")
 	show_input := flag.Bool("s", false, "Show input")
 	flag.Parse()
 
@@ -21,7 +21,7 @@ func main() {
     s := bufio.NewScanner(os.Stdin)
 	for s.Scan() {
 		word := string(s.Text())
-		new_word := leet.ApplyLeet(word, *random)
+		new_word := leet.ApplyLeet(word)
 		if *show_input {
 			fmt.Printf("%v: %v\n", word, new_word)
 		} else {
