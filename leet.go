@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var leetCharCorr = map[string][]string {
+var charTable = map[string][]string {
 	"a":[]string{"4",},
 	"b":[]string{"8",},
 	"e":[]string{"3",},
@@ -24,7 +24,7 @@ var leetCharCorr = map[string][]string {
 	"z":[]string{"2","s",},
 }
 
-var leetWordCorr = map[string]string {
+var wordTable = map[string]string {
 	"one":"1",
 	"won":"1",
 	"two":"2",
@@ -76,11 +76,11 @@ func initCharKeys(m map[string][]string) []string {
 	return ks
 }
 
-var charKeys = initCharKeys(leetCharCorr)
-var wordKeys = initWordKeys(leetWordCorr)
+var charKeys = initCharKeys(charTable)
+var wordKeys = initWordKeys(wordTable)
 
 func LeetChar(char string) (string, bool) {
-	val, ok := leetCharCorr[char]
+	val, ok := charTable[char]
 	if !ok {
 		return "", ok
 	}
@@ -88,7 +88,7 @@ func LeetChar(char string) (string, bool) {
 }
 
 func LeetWord(word string) (string, bool) {
-	word, ok := leetWordCorr[word]
+	word, ok := wordTable[word]
 	return word, ok
 }
 
