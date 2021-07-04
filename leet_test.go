@@ -44,12 +44,37 @@ func TestLeetWord(t *testing.T) {
 	}
 }
 
+func TestApplyChar(t *testing.T) {
+	if val := ApplyChar("g"); val != "6" && val != "9" && val != "g" {
+		t.Errorf("ApplyChar with argument 'g' should return '6','9' or 'g' but got '%s'", val)
+	}
+	if val := ApplyChar("c"); val != "c" {
+		t.Errorf("LeetChar with argument 'c' should return 'c' but got '%s'", val)
+	}
+	if val := ApplyChar("ate"); val != "ate" && val != "at3" && val != "a7e" && val != "a73" && val != "4te" && val != "4t3" && val != "47e" && val != "473" {
+		t.Errorf("ApplyLeet with argument 'ate' return invalid word: '%s'", val)
+	}
+}
+
+func TestApplyWord(t *testing.T) {
+	if val := ApplyWord("g",); val != "g" {
+		t.Errorf("ApplyWord with argument 'g' should return 'g' but got '%s'", val)
+	}
+	if val := ApplyWord("night"); val != "nite" {
+		t.Errorf("ApplyWord with argument 'night' should return 'nite' but got '%s'", val)
+	}
+	if val := ApplyWord("eight night hate"); val != "8 nite h8" {
+		t.Errorf("ApplWord with argument 'eight night hate' should return '8 nite h8' but got '%s'", val)
+	}
+}
+
+
 func TestApplyLeet(t *testing.T) {
-	if val := ApplyLeet("g"); val != "6" && val != "9" && val != "g" {
+	if val := ApplyLeet("g",); val != "6" && val != "9" && val != "g" {
 		t.Errorf("ApplyLeet with argument 'g' should return '6','9' or 'g' but got '%s'", val)
 	}
 	if val := ApplyLeet("c"); val != "c" {
-		t.Errorf("LeetChar with argument 'c' should return 'c' but got '%s'", val)
+		t.Errorf("ApplyLeet with argument 'c' should return 'c' but got '%s'", val)
 	}
 	if val := ApplyLeet("night"); val != "nite" {
 		t.Errorf("ApplyLeet with argument 'night' should return 'nite' but got '%s'", val)
