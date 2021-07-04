@@ -45,8 +45,8 @@ func TestLeetWord(t *testing.T) {
 }
 
 func TestApplyLeet(t *testing.T) {
-	if val := ApplyLeet("g"); val != "6" && val != "9" {
-		t.Errorf("ApplyLeet with argument 'g' should return '6' or '9' but got '%s'", val)
+	if val := ApplyLeet("g"); val != "6" && val != "9" && val != "g" {
+		t.Errorf("ApplyLeet with argument 'g' should return '6','9' or 'g' but got '%s'", val)
 	}
 	if val := ApplyLeet("c"); val != "c" {
 		t.Errorf("LeetChar with argument 'c' should return 'c' but got '%s'", val)

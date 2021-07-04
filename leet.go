@@ -101,7 +101,7 @@ func LeetWordKeys() []string {
 }
 
 func randBool() bool {
-	return rand.Intn(2) == 0
+	return rand.Intn(5) == 0
 }
 
 func ApplyLeet(word string) string{
@@ -129,7 +129,7 @@ func applyLeet(str string) string {
 			continue
 		}
 
-		if char, ok := LeetChar(str[:1]); ok{
+		if char, ok := LeetChar(str[:1]); ok && randBool() {
 			new_str += char
 		} else {
 			new_str += str[:1]
@@ -138,5 +138,3 @@ func applyLeet(str string) string {
 	}
 	return new_str
 }
-
-
