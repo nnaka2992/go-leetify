@@ -104,37 +104,63 @@ func randBool() bool {
 	return rand.Intn(5) == 0
 }
 
-func ApplyLeet(word string) string{
-	new_str := applyLeet(word)
-	return new_str
-}
-
-func applyLeet(str string) string {
-	applyWord := func (str string, new_str *string) (string, bool){
-		for i := 0; i < len(wordKeys); i++ {
-			if strings.HasPrefix(str, wordKeys[i]) {
-				if word, ok := LeetWord(wordKeys[i]); ok {
-					*new_str += word
-				}
-				return str[len(wordKeys[i]):], true
-			}
-		}
-		return str, false
-	}
-
+func ApplyLeet(str string) string {
 	new_str := ""
 	for ; 0 < len(str); {
-		if substr, ok := applyWord(str, &new_str); ok {
+		if substr, val, ok := applyWord(str); ok {
 			str = substr
+			new_str += val
 			continue
 		}
 
-		if char, ok := LeetChar(str[:1]); ok && randBool() {
-			new_str += char
-		} else {
-			new_str += str[:1]
+		substr, val, _ := applyChar(str)
+		str = substr
+		new_str += val
+
+	}
+	return new_str
+}
+
+func ApplyWord(str string) string {
+	new_str := ""
+	for ; 0 < len(str); {
+		if substr, val, ok := applyWord(str); ok {
+			str = substr
+			new_str += val
+			continue
 		}
+		new_str += str[:1]
 		str = str[1:]
 	}
 	return new_str
+}
+
+func ApplyChar(str string) string {
+	new_str := ""
+	for ; 0 < len(str); {
+		substr, val, _ := applyChar(str)
+		str = substr
+		new_str += val
+	}
+	return new_str
+}
+
+func applyWord (str string) (string, string, bool){
+	for i := 0; i < len(wordKeys); i++ {
+		if strings.HasPrefix(str, wordKeys[i]) {
+			if word, ok := LeetWord(wordKeys[i]); ok {
+				return str[len(wordKeys[i]):], word, true
+			}
+		}
+	}
+	return str, "",  false
+}
+
+func applyChar(str string) (string, string, bool) {
+	char, ok := LeetChar(str[:1])
+	if ok && randBool() {
+		return str[1:], char, true
+	} else {
+		return str[1:], str[:1], false
+	}
 }
